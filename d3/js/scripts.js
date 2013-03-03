@@ -31,7 +31,7 @@ function translateZ(distance){
 	return (distance / maxZSpan) * maxZ;
 }
 
-function particle(x,y,z) {
+function position(x,y,z) {
 	svg.append("svg:circle")
 		.attr("cx", x)
 		.attr("cy", y)
@@ -47,6 +47,6 @@ Leap.loop(function(frame) {
 		posX = maxX + translateX(pointer.tipPosition[0]);
 		posY = maxY + translateY(pointer.tipPosition[1]);
 		posZ = maxZ + translateZ(pointer.tipPosition[2]);
-		particle(posX, posY, posZ);
+		position(posX, posY, posZ);
 	}
 });
