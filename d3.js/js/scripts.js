@@ -1,4 +1,4 @@
-var windowWidth		= $(window).width()
+var windowWidth		= $(window).width(),
 	windowHeight	= $(window).height(),
 	originX			= 600,
 	originY			= 600,
@@ -8,7 +8,7 @@ var windowWidth		= $(window).width()
 	maxZ			= originZ,
 	maxSpan			= 100,
 	maxZSpan		= 160,
-	offsetY			= 1400;
+	offsetY			= 400;
 
 var posX,
 	posY,
@@ -21,21 +21,21 @@ var svg = d3.select("body")
 	.attr("height", windowHeight);
 
 function translateX(distance) {
-	return (distance / maxSpan) * maxX;
+	return 0 - ((distance / maxSpan) * maxX);
 }
 function translateY(distance) {
 	return offsetY - ((distance / maxSpan) * maxY);
 }
 
 function translateZ(distance){
-	return (distance / maxZSpan) * maxZ;
+	return 0 - ((distance / maxZSpan) * maxZ);
 }
 
 function position(x,y,z) {
 	svg.append("svg:circle")
 		.attr("cx", x)
 		.attr("cy", y)
-		.attr("r", 12)
+		.attr("r", z/20)
 		.style("stroke", "226FCB")
 	.transition(10)
 		.remove();
