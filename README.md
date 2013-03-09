@@ -1,6 +1,6 @@
 Leap Motion Demo's
 =================
 
-Various examples and demo's put together for the Leap Motion interface device.
+Various examples and development demo's for the Leap Motion interface device.
 
-View the blog for more information: www.magpiementality.com
+You can view all the demo's [here](http://schnipz.github.com/leap-motion-demos/) or check out my blog for more information: www.magpiementality.com
