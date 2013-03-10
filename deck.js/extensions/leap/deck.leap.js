@@ -10,7 +10,7 @@ break;default:throw"unkown gesture type"}gesture.id=data.id;gesture.handIds=data
  *	Leap Deck - deck.leap.js
  *	Copyright (c) 2013, Mike Parsons
  *	All rights reserved.
- *	
+ *
  *	This extension adds the ability to navigate using the Leap Motion interface device.
  */
 (function($, deck, undefined){
@@ -34,11 +34,11 @@ break;default:throw"unkown gesture type"}gesture.id=data.id;gesture.handIds=data
 				vX = pointable.tipVelocity[0],			// Velocity on the x axis.
 				vY = pointable.tipVelocity[1];			// Velocity on the y axis.
 
-			if( vX > velocityCutoff ){					// Swipe LEFT
+			if( vX < velocityCutoff ){					// Swipe LEFT
 				debounce(function(){
 					doSwipe( 'left', vX, pX );
 				}, 100);
-			}else if( vX < ( 0 - velocityCutoff ) ){	// Swipe RIGHT
+			}else if( vX > ( 0 - velocityCutoff ) ){	// Swipe RIGHT
 				debounce(function(){
 					doSwipe( 'right', vX, pX );
 				}, 100);
