@@ -15,7 +15,7 @@ LEAP = {
 				
 				var hand = data.hands[0];				
 //				console.log(hand);				
-				DEMO.sphereRadius = (hand.sphereRadius * hand.sphereRadius) / 50;
+				DEMO.sphereRadius = hand.sphereRadius;
 				DEMO.spherePosX = hand.palmPosition[0];
 				DEMO.spherePosY = hand.palmPosition[1] - 275;
 				DEMO.spherePosZ = hand.palmPosition[2] - 50;
