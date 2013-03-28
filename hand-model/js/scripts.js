@@ -1,13 +1,8 @@
 LEAP = {
 	init: function(){
-		var controller = new Leap.Controller();	
-//		controller.on('frame', function(data){
-//			LEAP.filterData(data);	
-//		});
-		controller.on('animationFrame', function(data){
+		Leap.loop(function(data) {
 			LEAP.filterData(data);
 		});		
-		controller.connect();
 	},
 	filterData: function(data){
 		if( data.valid ){		
