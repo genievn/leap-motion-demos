@@ -9,14 +9,16 @@ LEAP = {
 			if(typeof data.hands[0] !== "undefined" ){
 				
 				var hand = data.hands[0];				
-//				console.log(hand);				
-				DEMO.sphereRadius = hand.sphereRadius;
-				DEMO.spherePosX = hand.palmPosition[0];
-				DEMO.spherePosY = hand.palmPosition[1] - 275;
-				DEMO.spherePosZ = hand.palmPosition[2] - 50;
-				DEMO.sphereRotX = (hand.rotation[1][2] * 4) * -1;
-				DEMO.sphereRotY = hand.rotation[0][2] * 3;
-				DEMO.sphereRotZ = hand.rotation[0][1] * -1;	
+//				console.log(hand);
+				DEMO.sphereRadius = DEMO.Functions.setToRange( hand.sphereRadius, [50,180], [10,400] );
+				
+				DEMO.spherePosX = DEMO.Functions.setToRange( hand.palmPosition[0], [-200,200], [-700,700], DEMO.spherePosX );
+				DEMO.spherePosY = DEMO.Functions.setToRange( hand.palmPosition[1], [50,300], [-600,300], DEMO.spherePosY );
+				DEMO.spherePosZ = DEMO.Functions.setToRange( hand.palmPosition[2], [-50,300], [-250,200], DEMO.spherePosZ );
+				
+				DEMO.sphereRotX = DEMO.Functions.setToRange( hand.rotation[0][1], [-1,1], [1,-1], DEMO.sphereRotX );
+				DEMO.sphereRotY = DEMO.Functions.setToRange( hand.rotation[1][2], [-1,1], [2.5,-2.5], DEMO.sphereRotY );
+				DEMO.sphereRotZ = DEMO.Functions.setToRange( hand.rotation[0][2], [-1,1], [-2,2], DEMO.sphereRotZ );
 				
 				DEMO.update();
 			}
@@ -28,10 +30,11 @@ DEMO = {
 	renderer: null,
 	camera: null,
 	scene: null,
-	sphereRadius: 100,
+	sphereRadius: 150,
 	
 	windowWidth: 600,
 	windowHeight: 400,
+	windowDepth: 600,
 	
 	spherePosX: 0,
 	spherePosY: 0,
@@ -55,7 +58,8 @@ DEMO = {
 	setupScene: function(){
 
 		DEMO.windowWidth	=	$(window).width(),
-		DEMO.windowHeight	=	$(window).height();
+		DEMO.windowHeight	=	$(window).height(),
+		DEMO.windowDepth	=	500;
 
 		var viewingAngle =	60,
 			aspect =		DEMO.windowWidth / DEMO.windowHeight,
@@ -108,13 +112,9 @@ DEMO = {
 		);
 			
 		DEMO.scene.add(mesh);	
-		
-//		console.log( DEMO.spherePosX.toFixed(2)+', '+DEMO.spherePosY.toFixed(2)+', '+DEMO.spherePosZ.toFixed(2) );		
-		mesh.position.set( DEMO.spherePosX, DEMO.spherePosY, DEMO.spherePosZ );
-		
-//		console.log( DEMO.sphereRotX.toFixed(2)+', '+DEMO.sphereRotY.toFixed(2)+', '+DEMO.sphereRotZ.toFixed(2) );
-		mesh.rotation.set(DEMO.sphereRotX, DEMO.sphereRotY, DEMO.sphereRotZ);
-		
+				
+		mesh.position.set( DEMO.spherePosX, DEMO.spherePosY, DEMO.spherePosZ );		
+		mesh.rotation.set(DEMO.sphereRotY, DEMO.sphereRotZ, DEMO.sphereRotX);		
 		mesh.matrix.setRotationFromEuler(mesh.rotation);
 		
 		DEMO.renderScene();		
@@ -129,6 +129,30 @@ DEMO = {
 	},
 	renderScene: function(){
 		DEMO.renderer.render(DEMO.scene, DEMO.camera);
+		DEMO.updateLog();
+	},
+	updateLog: function(){
+		$('#posX').html( DEMO.spherePosX.toFixed(2) );
+		$('#posY').html( DEMO.spherePosY.toFixed(2) );
+		$('#posZ').html( DEMO.spherePosZ.toFixed(2) );
+		
+		$('#rotX').html( DEMO.sphereRotX.toFixed(2) );
+		$('#rotY').html( DEMO.sphereRotY.toFixed(2) );
+		$('#rotZ').html( DEMO.sphereRotZ.toFixed(2) );
+		
+		$('#radius').html( DEMO.sphereRadius.toFixed(2) );
+	},
+	Functions: {
+		setToRange: function(value, srcRange, dstRange, fallback){
+			fallback = fallback || NaN;
+			if (value < srcRange[0] || value > srcRange[1]){
+				return fallback; 
+			}
+			var srcMax = srcRange[1] - srcRange[0],
+			dstMax = dstRange[1] - dstRange[0],
+			adjValue = value - srcRange[0];
+			return (adjValue * dstMax / srcMax) + dstRange[0];
+		}
 	}
 };
 
